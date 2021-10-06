@@ -1,0 +1,15 @@
+version: '2.2'
+services:
+  hola:
+    build:
+      context: ./
+      dockerfile: Dockerfile-build
+    image: zakaria26/user-app
+    ports:
+      - 8083
+      - "1521:1521"
+    networks:
+      - network1
+
+networks:
+  network1:
