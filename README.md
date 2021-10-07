@@ -9,8 +9,10 @@ User's-Information-Application is a simple crud application that stores user dat
     3. Update user data
 - Data is saved in In-Memory Database (h2)
 - Readme file describing how to install/run the application
-- Unit Test
+- Unit & Integration Test
+- Exceptions Handling 
 ### Preparing Environment to run the application
+#### Technology: Spring Boot
 #### Install java 8
 To run user's-information-application system must have java environment(Java 8). To install java 8 in your Linux environment
 ```
@@ -22,7 +24,7 @@ To check java is installed or not, run
 java -version
 ```
 #### Install maven
-user-data-operator-application is a maven project. To build the jar file system must have maven installed. To install maven, run
+user's-information-application is a maven project. To build the jar file system must have maven installed. To install maven, run
 ```$xslt
 sudo apt -y install maven
 sudo maven -version
@@ -32,6 +34,13 @@ It is recommended to install git in the system. To install git
 ```$xslt
 sudo apt install git
 git --version
+``` 
+The git repository link to clone it form  git
+```$xslt
+https://github.com/zshuvo26/user-information-app.git
+open console and type
+git clone https://github.com/zshuvo26/user-information-app.git
+or can Download it.
 ``` 
 #### Installing Docker
 If anyone wants to run the project on Docker engine, it is must to install Docker. In this application we are going to use MongoDB which also going to run on Docker engine. So it is highly recommended to install docker.
@@ -80,6 +89,9 @@ Application will be run on the 8083 port of the host machine. To run the applica
 
 - Clone the code from github
 ``` 
+git clone https://github.com/zshuvo26/user-information-app.git
+Or can download it
+
 ```
 - In the target folder .jar file is available. To run the application, go to the target folder and open a terminal. then
 
@@ -97,7 +109,8 @@ docker run -p 9090:8083 zshuvo26/user-app
 ```
 The app will start running.When run is done then open postman to check the API's at-
 ```$xslt
-http://localhost:9090/api/v1/users
+http://localhost:9090/api/v1/users in POSTMAN
+Or http://localhost:9090/swagger-ui.html in Browser
 ```
 ### Documentation
 

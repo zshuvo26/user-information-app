@@ -208,7 +208,7 @@ If there is wrong id provided
 }`
 
 
-#### 3. To Update User's Information go to request-pay-load-controller->PUT
+### 3. To Update User's Information go to request-pay-load-controller->PUT
 
 
 `method`: PUT

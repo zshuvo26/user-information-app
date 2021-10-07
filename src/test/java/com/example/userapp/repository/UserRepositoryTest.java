@@ -1,5 +1,4 @@
 package com.example.userapp.repository;
-
 import com.example.userapp.domain.User;
 import com.example.userapp.web.rest.errors.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,10 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
 import javax.persistence.EntityManager;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest

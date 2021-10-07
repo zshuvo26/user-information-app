@@ -62,7 +62,7 @@ class UserServiceTest {
         final RequestPayload payload = payloadForParent();
 
         payload.setUserId(Long.MAX_VALUE);
-        assertThrows(RuntimeException.class, () -> requestPayloadService.update(payload));
+        assertThrows(UserNotFoundException.class, () -> requestPayloadService.update(payload));
         try {
             payload.setUserId(getOrCreateParentId());
         } catch (InvalidValueException e) {
@@ -87,8 +87,6 @@ class UserServiceTest {
         assertTrue(baseDTO.get() instanceof ChildUserDTO);
         assertNotNull(((ChildUserDTO) baseDTO.get()).getUser());
     }
-
-
 
 
     private Long getOrCreateParentId() throws InvalidValueException {
