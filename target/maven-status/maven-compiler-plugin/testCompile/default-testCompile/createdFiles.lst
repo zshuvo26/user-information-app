@@ -1,0 +1,4 @@
+com/example/userapp/UserappApplicationTests.class
+com/example/userapp/service/UserServiceTest.class
+com/example/userapp/service/AddressServiceImplTest.class
+com/example/userapp/repository/UserRepositoryTest.class
