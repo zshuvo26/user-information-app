@@ -10,6 +10,7 @@ import com.example.userapp.web.rest.errors.InvalidValueException;
 import com.example.userapp.web.rest.errors.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -26,19 +27,19 @@ public class UserController {
 
 
     //Fetch All User
-    @GetMapping
+    @GetMapping("/users")
     public ArrayList<RequestPayload> getAllUsers() {
         return userService.getAllUsers();
     }
 
     //Fetch User by ID
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public RequestPayload getUser(@PathVariable Long id) throws UserNotFoundException {
         return userService.getUser(id);
     }
 
     //Delete User by ID
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id) throws UserNotFoundException, InvalidValueException, InvalidDeleteException {
         userService.deleteUser(id);
     }

@@ -8,6 +8,7 @@ import com.example.userapp.service.dto.AddressDTO;
 import com.example.userapp.service.dto.ParentUserDTO;
 import com.example.userapp.web.rest.errors.InvalidValueException;
 import com.example.userapp.web.rest.errors.ParentUserNotFoundException;
+import com.example.userapp.web.rest.errors.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,20 +29,20 @@ public class ParentUserServiceImpl implements ParentUserService {
     @Override
     public Optional<ParentUser> createParentUser(ParentUserDTO parentUser) throws InvalidValueException {
         ParentUser pUser = new ParentUser();
-        pUser.setUser(userService.createUser(parentUser.getUser()).orElseThrow(() -> new RuntimeException("Can't create user for parent.,")));
-        pUser.setAddress(addressService.createAddress(parentUser.getAddress()).orElseThrow(() -> new RuntimeException("Can't get or create address for parent")));
+        pUser.setUser(userService.createUser(parentUser.getUser()).orElseThrow(() -> new InvalidValueException("Can't create user for parent.,")));
+        pUser.setAddress(addressService.createAddress(parentUser.getAddress()).orElseThrow(() -> new InvalidValueException("Can't get or create address for parent")));
         return Optional.of(parentUserRepository.saveAndFlush(pUser));
 
     }
 
     @Override
-    public Optional<ParentUser> updateParentUser(ParentUserDTO parentUserDTO) {
+    public Optional<ParentUser> updateParentUser(ParentUserDTO parentUserDTO) throws InvalidValueException, UserNotFoundException {
         ParentUser pUser = parentUserRepository.findParentUserByUserId(parentUserDTO.getUser().getId());
-        pUser.setUser(userService.updateUser(parentUserDTO.getUser()).orElseThrow(() -> new RuntimeException("Can't create user for parent.,")));
+        pUser.setUser(userService.updateUser(parentUserDTO.getUser()).orElseThrow(() -> new InvalidValueException("Can't create user for parent.,")));
         Address address = addressRepository.findById(pUser.getAddress().getId()).get();
         AddressDTO addressDTO = parentUserDTO.getAddress();
         addressDTO.setId(address.getId());
-        pUser.setAddress(addressService.updateAddress(addressDTO).orElseThrow(() -> new RuntimeException("Can't get or create address for parent")));
+        pUser.setAddress(addressService.updateAddress(addressDTO).orElseThrow(() -> new UserNotFoundException("Can't get or create address for parent")));
         return Optional.of(parentUserRepository.saveAndFlush(pUser));
 
     }

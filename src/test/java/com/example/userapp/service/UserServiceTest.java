@@ -59,17 +59,22 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Update Parent Type User")
-    void updateParentUser() throws InvalidValueException {
+    void updateParentUser() throws InvalidValueException, UserNotFoundException {
         final RequestPayload payload = payloadForParent();
+
+        payload.setUserId(Long.MAX_VALUE);
+        assertThrows(RuntimeException.class, () -> requestPayloadService.update(payload));
         try {
             payload.setUserId(getOrCreateParentId());
         } catch (InvalidValueException e) {
             e.printStackTrace();
         }
+        //name
         Optional<? extends BaseDTO> baseDTO = requestPayloadService.update(payload);
         assertTrue(baseDTO.isPresent());
         assertTrue(baseDTO.get() instanceof ParentUserDTO);
         assertNotNull(((ParentUserDTO) baseDTO.get()).getUser());
+        //first
     }
 
     @Test

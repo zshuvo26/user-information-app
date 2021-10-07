@@ -2,6 +2,7 @@ package com.example.userapp.service;
 
 import com.example.userapp.domain.Address;
 import com.example.userapp.service.dto.AddressDTO;
+import com.example.userapp.web.rest.errors.InvalidValueException;
 import com.example.userapp.web.rest.errors.UserNotFoundException;
 
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.Optional;
  */
 
 public interface AddressService {
-    Optional<Address> createAddress(AddressDTO address);
+    Optional<Address> createAddress(AddressDTO address) throws InvalidValueException;
 
     Optional<Address> updateAddress(AddressDTO address);
 

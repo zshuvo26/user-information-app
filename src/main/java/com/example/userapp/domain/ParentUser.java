@@ -25,6 +25,5 @@ public class ParentUser {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    public ParentUser(User user, Address address) {
-    }
+
 }

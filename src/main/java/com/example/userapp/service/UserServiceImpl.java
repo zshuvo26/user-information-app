@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final AddressService addressService;
 
     @Override
-    public void deleteUser(Long id) throws UserNotFoundException, InvalidValueException, InvalidDeleteException {
+    public String deleteUser(Long id) throws UserNotFoundException, InvalidValueException, InvalidDeleteException {
         if (id == null)
             throw new InvalidValueException("Invalid value for id");
         Optional<User> user = userRepository.findById(id);
@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.deleteById(user.get().getId());
         }
+        return "User Deleted Successfully";
     }
 
     @Override
@@ -108,8 +109,10 @@ public class UserServiceImpl implements UserService {
             requestPayload.setFirstName(user.getFirstName());
             requestPayload.setLastName(user.getLastName());
             requestPayload.setEmail(user.getEmail());
-            AddressDTO addressDTO = modelMapper.map(parentUser.getAddress(), AddressDTO.class);
-            requestPayload.setAddress(addressDTO);
+            if(parentUser!=null){
+                AddressDTO addressDTO = modelMapper.map(parentUser.getAddress(), AddressDTO.class);
+                requestPayload.setAddress(addressDTO);
+            }
             requestPayloads.add(requestPayload);
         }
         return requestPayloads;

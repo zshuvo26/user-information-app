@@ -3,6 +3,7 @@ package com.example.userapp.service;
 import com.example.userapp.domain.Address;
 import com.example.userapp.repository.AddressRepository;
 import com.example.userapp.service.dto.AddressDTO;
+import com.example.userapp.web.rest.errors.InvalidValueException;
 import com.example.userapp.web.rest.errors.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,7 +25,10 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public Optional<Address> createAddress(AddressDTO address) {
+    public Optional<Address> createAddress(AddressDTO address) throws InvalidValueException {
+        if (address.getState().isEmpty()) {
+            throw new InvalidValueException("STATE IS MISSING");
+        }
         return Optional.of(addressRepository.findAddressByStreetAndZipAndCityAndState(
                 address.getStreet(),
                 address.getZip(),

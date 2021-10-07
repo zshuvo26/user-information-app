@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public interface UserService {
 
-    void deleteUser(Long id) throws UserNotFoundException, InvalidValueException, InvalidDeleteException;
+    String deleteUser(Long id) throws UserNotFoundException, InvalidValueException, InvalidDeleteException;
 
     Optional<User> updateUser(UserDTO user);
 

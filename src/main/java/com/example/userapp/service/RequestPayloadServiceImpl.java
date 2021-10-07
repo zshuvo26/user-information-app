@@ -1,8 +1,10 @@
 package com.example.userapp.service;
 
+import com.example.userapp.domain.User;
 import com.example.userapp.repository.UserRepository;
 import com.example.userapp.service.dto.*;
 import com.example.userapp.web.rest.errors.InvalidValueException;
+import com.example.userapp.web.rest.errors.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -49,24 +51,31 @@ public class RequestPayloadServiceImpl implements RequestPayloadService {
     }
 
     @Override
-    public Optional<? extends BaseDTO> update(@Valid RequestPayload payload) throws InvalidValueException {
+    public Optional<? extends BaseDTO> update(@Valid RequestPayload payload) throws InvalidValueException, UserNotFoundException {
         if (payload.getUserId()==null) {
             throw new InvalidValueException("User Id is missing! Please provide userId's valid value");
+        }else{
+            User user=userRepository.findById(payload.getUserId()).orElse(null);
+            if(user==null){
+                throw new UserNotFoundException("User Not Found with this userId");
+            }
+            UserDTO userDTO = modelMapper.map(payload, UserDTO.class);
+            userDTO.setId(payload.getUserId());
+            if (payload.isChild()) {
+                final ChildUserDTO childUserDTO = new ChildUserDTO();
+                childUserDTO.setUser(userDTO);
+                childUserDTO.setParentId(payload.getParentId());
+                return childUserService.updateChildUser(childUserDTO)
+                        .map(chUser -> modelMapper.map(chUser, ChildUserDTO.class));
+            } else {
+                ParentUserDTO parentUserDTO = new ParentUserDTO();
+                parentUserDTO.setUser(userDTO);
+                parentUserDTO.setAddress(payload.getAddress());
+                return parentUserService.updateParentUser(parentUserDTO).map(p -> modelMapper.map(p, ParentUserDTO.class));
+            }
+
         }
-        UserDTO userDTO = modelMapper.map(payload, UserDTO.class);
-        userDTO.setId(payload.getUserId());
-        if (payload.isChild()) {
-            final ChildUserDTO childUserDTO = new ChildUserDTO();
-            childUserDTO.setUser(userDTO);
-            childUserDTO.setParentId(payload.getParentId());
-            return childUserService.updateChildUser(childUserDTO)
-                    .map(chUser -> modelMapper.map(chUser, ChildUserDTO.class));
-        } else {
-            ParentUserDTO parentUserDTO = new ParentUserDTO();
-            parentUserDTO.setUser(userDTO);
-            parentUserDTO.setAddress(payload.getAddress());
-            return parentUserService.updateParentUser(parentUserDTO).map(p -> modelMapper.map(p, ParentUserDTO.class));
-        }
+
     }
 
 
