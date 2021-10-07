@@ -2,7 +2,6 @@ package com.example.userapp.service;
 
 import com.example.userapp.UserappApplication;
 import com.example.userapp.domain.ParentUser;
-import com.example.userapp.domain.User;
 import com.example.userapp.repository.ChildUserRepository;
 import com.example.userapp.repository.ParentUserRepository;
 import com.example.userapp.repository.UserRepository;
@@ -48,7 +47,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Create Parent Type User")
-    void createParentUser() throws InvalidValueException {
+    void testCreateParentUser() throws InvalidValueException {
         final RequestPayload payload = payloadForParent();
 
         Optional<? extends BaseDTO> baseDTO = requestPayloadService.create(payload);
@@ -59,7 +58,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Update Parent Type User")
-    void updateParentUser() throws InvalidValueException, UserNotFoundException {
+    void testUpdateParentUser() throws InvalidValueException, UserNotFoundException {
         final RequestPayload payload = payloadForParent();
 
         payload.setUserId(Long.MAX_VALUE);
@@ -69,20 +68,16 @@ class UserServiceTest {
         } catch (InvalidValueException e) {
             e.printStackTrace();
         }
-        //name
         Optional<? extends BaseDTO> baseDTO = requestPayloadService.update(payload);
         assertTrue(baseDTO.isPresent());
         assertTrue(baseDTO.get() instanceof ParentUserDTO);
         assertNotNull(((ParentUserDTO) baseDTO.get()).getUser());
-        //first
     }
 
     @Test
     @DisplayName("Create Child Type User")
-    void createChildUser() throws InvalidValueException {
+    void testCreateChildUser() throws InvalidValueException {
         final RequestPayload payload = payloadForChild();
-
-       // assertThrows(RuntimeException.class, () -> requestPayloadService.create(payload));
 
         payload.setParentId(getOrCreateParentId());
 

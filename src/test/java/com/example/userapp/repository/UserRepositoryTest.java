@@ -30,7 +30,7 @@ class UserRepositoryTest {
 
     @Test
     @DisplayName("Get user data on valid user id ")
-    public void whenValidUserId_thenUserShouldFond() throws UserNotFoundException {
+    public void testWhenValidUserId_thenUserShouldFond() throws UserNotFoundException {
         Long userId = 1L;
         User user = new User(1L, DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL);
         User found = userRepository.getById(user.getId());

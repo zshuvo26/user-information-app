@@ -22,7 +22,7 @@ public class AddressServiceImplTest {
 
     @Test
     @DisplayName("Should Retrieve Address by Id")
-    public void shouldFindAddressById() {
+    public void testShouldFindAddressById() {
         Address address = new Address(1l, DEFAULT_STATE, DEFAULT_CITY, DEFAULT_ZIP, DEFAULT_STREET);
         Address expectedAddressResponse = address;
         Mockito.when(addressServiceImpl.findAddressById(1l)).thenReturn(Optional.of(expectedAddressResponse));
